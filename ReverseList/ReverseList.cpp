@@ -28,13 +28,61 @@ ListNode* ReverseList(ListNode* pHead)
     return pReversedHead;
 }
 
+ListNode* ReverseList1(ListNode* pHead)
+{
+	ListNode* pre = NULL;
+	ListNode* cur = pHead;
+	ListNode* tmp = cur;
+	while (tmp != NULL)
+	{
+		tmp = cur->m_pNext;
+		cur->m_pNext = pre;
+		pre = cur;
+		cur = tmp;
+	}
+
+	return pre;
+}
+
+ListNode * reverseNonrecurisve(ListNode * head) {
+	if (head == NULL) return head;
+	ListNode * current = head;
+	ListNode * previous = NULL;
+	//while (current->m_pNext != NULL) {
+	//	ListNode* tmp = current->m_pNext;
+	//	current->m_pNext = previous;
+	//	previous = current;
+	//	current = tmp;
+	//}
+	ListNode* tmp = current->m_pNext;
+	while (tmp != NULL) {		
+		current->m_pNext = previous;
+		previous = current;
+		current = tmp;
+		tmp = tmp-> m_pNext;
+	}
+	current->m_pNext = previous;
+	return current;
+}
+
+ListNode * reverseRecursive(ListNode * head) {
+	if (head == NULL) return head;
+	if (head->m_pNext == NULL) return head;
+	ListNode * ph = reverseRecursive(head->m_pNext);
+	head->m_pNext->m_pNext = head;
+	head->m_pNext = NULL;
+	return ph;
+}
+
+
+
 // ====================≤‚ ‘¥˙¬Î====================
 ListNode* Test(ListNode* pHead)
 {
     printf("The original list is: \n");
     PrintList(pHead);
 
-    ListNode* pReversedHead = ReverseList(pHead);
+    ListNode* pReversedHead = reverseRecursive(pHead);
 
     printf("The reversed list is: \n");
     PrintList(pReversedHead);
@@ -50,11 +98,13 @@ void Test1()
     ListNode* pNode3 = CreateListNode(3);
     ListNode* pNode4 = CreateListNode(4);
     ListNode* pNode5 = CreateListNode(5);
+	ListNode* pNode6 = CreateListNode(6);
 
     ConnectListNodes(pNode1, pNode2);
     ConnectListNodes(pNode2, pNode3);
     ConnectListNodes(pNode3, pNode4);
     ConnectListNodes(pNode4, pNode5);
+	ConnectListNodes(pNode5, pNode6);
 
     ListNode* pReversedHead = Test(pNode1);
 
